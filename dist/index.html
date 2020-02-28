@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html ng-app="Expense">
+<head>
+  <title>Expense Details</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<div class="container" ng-controller="NumberController as nctrl">
+  <!-- Container Starts here -->
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo center">Expense Calculator</a>
+    </div>
+  </nav> 
+  
+  <div class="row">
+    <!-- MAIN ROW STARTS HERE -->
+
+    <div class="col s3">
+      <!-- LEFt SIde BAR START-->
+      <div class="row">
+        <div class="col s12">
+          <div class="card-panel teal">
+            <span class="white-text">Expense Spliter</span>
+            <div class="divider"></div>
+            <p class="white-text">Enter The Number of People</p>
+          </div>
+        </div>      
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="card-panel teal">
+             <a class="waves-effect waves-light btn"  style="background-color: #ce4a4a;" ng-click="nctrl.reset()">RESET</a>
+          </div>
+        </div>      
+      </div>
+      <!-- LEFT SIDE ENDS HERE -->
+    </div>
+
+    <div class="col s9">
+      <!-- RIGHT COLUMN STARTS-->
+      <div class="row" ng-show="nctrl.number_tab">
+        <!-- RIGHT ROW1 START -->
+        <div class="col  s12">
+          <div class="card-panel">
+             <!-- CARD START -->
+            <div class="card-content">
+             
+              <span class="card-title"> <h5> Title </h5> </span>
+              <div class="divider"></div>
+              <div class="row">
+                <form class="col s12">
+                  <div class="row">
+                    <div class="col s8">
+                      Enter The Number of People
+                      <div class="input-field inline">
+                        <input id="number" type="number" min="1" ng-model="nctrl.nuser">
+                        <label>People</label>                       
+                      </div>
+                    </div>
+                    <div class="col s3">
+                      <div class="input-field">
+                        <button class="btn waves-effect waves-light" type="submit" ng-click="nctrl.hide_number()" >Submit</button>  
+                      </div>                      
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>  
+             <!-- CARD END -->            
+          </div>           
+        </div>
+        <!-- RIGHT ROW1 END -->
+      </div> 
+      <div class="row" ng-show="nctrl.create_row_tab">
+        <!-- RIGHT ROW2 STRAT -->
+        <div class="col s12">
+          <div class="card-panel">
+            <div class="card-content">
+              <span class="card-title"> <h5> Enter The Expense Details of {{nctrl.nuser }} People </h5> </span>
+              <div class="divider"></div>    
+              <div class="row">
+                <div class="row">
+                  <div class="col s5">
+                    <b>Name</b>
+                  </div>
+                  <div class="col s3">
+                    <b>Amount</b>
+                  </div>
+                  <div class="col s2">
+                    <b>ADD</b>
+                  </div>
+                  <div class="col s2">
+                    <b>Total</b>
+                  </div>
+                </div>
+                <form>
+                <div class="row" ng-repeat="i in nctrl.range">   <!-- Repeat This Row  -->
+                  <form class="col s12">
+                    <div class="input-field col s5">
+                      <input id="first_name" type="text" ng-model="nctrl.users[i]">
+                    </div>
+                    <div class="input-field col s3">
+                      <input id="first_name" type="Number" ng-model="nctrl.amounts[i]">
+                    </div>
+                    <div class="col s1">
+                      <a class="btn-floating btn-small waves-effect waves-light red" ng-click="nctrl.add_amount(i)"><i class="material-icons">add</i></a>
+                    </div>
+                    <div class="input-field col s3">
+                      <input id="first_name" type="Number" ng-model="nctrl.totals[i]">
+                    </div>
+                  </form>
+                </div>
+                <div class="row">                  
+                 <!-- Submit Total -->
+                  <div class="input-field col s3">
+                      <a class="waves-effect waves-light btn" ng-click="nctrl.gtotal()" href="#gtotal_phead">Total</a>
+                  </div>                  
+                </div>
+                </form>
+              </div> 
+            </div>
+          </div>
+        </div>
+        <!-- RIGHT ROW2 END -->
+      </div>
+      <div class="row" ng-show="nctrl.grand_table_tab">
+        <!-- RIGHT ROW3 START -->
+         <div class="col  s12">
+          <div class="card-panel">
+             <!-- CARD START -->
+            <div class="card-content">             
+              <span class="card-title"> 
+                <h5 id="gtotal_phead"> Grand Total: {{ nctrl.grand_total}} | Per Head: {{ nctrl.p_head}} </h5> 
+              </span>
+            <div class="divider"></div>
+            <table class="striped">
+              <thead>
+                <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="i in nctrl.range"> <!-- REpeat THis Row -->
+                <td>{{ i+1 }}</td>
+                <td>{{ nctrl.users[i] }}</td>
+                <td> {{ nctrl.grand_amount[i] }} </td>
+                <td ng-show="nctrl.grand_amount[i]>0"><a class="btn waves-effect waves-light green">GET</a></td>
+                <td ng-show="nctrl.grand_amount[i]<0"><a class="btn waves-effect waves-light red">PAY</a></td>
+                <td ng-show="nctrl.grand_amount[i]==0"><a class="btn disabled">Clear</a></td>
+                </tr>             
+              </tbody>
+            </table>  
+            <div class="row">
+              <div class="input-field col s5">
+                <a class="waves-effect waves-light btn" ng-click="nctrl.solveit()" href="#finalevaluation"> Solve It For ME</a>
+              </div>            
+            </div>          
+            </div>  
+             <!-- CARD END -->            
+          </div>           
+        </div>
+        <!-- RIGHT ROW3 END -->
+      </div>
+      <div class="row" ng-show="nctrl.evaluate_tab">
+        <!-- RIGHT ROW4 START -->
+        <div class="col s12">
+          <div class="card-panel">
+            <!-- CARD START -->
+            <div class="card-content">
+               <span class="card-title"> 
+                <h5 id="finalevaluation"> Final Evaluation </h5> 
+              </span>       
+              <div class="divider"></div>      
+            </div>
+            <table class="striped">
+              <thead>
+                <tr>
+                <th>#</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                 
+                <tr ng-repeat="j in nctrl.data"> <!-- REpeat THis Row -->
+                <td>{{ j.c }}</td>
+                <td>{{ j.f }}</td>
+                <td>{{ j.t }} </td>
+                <td>{{ j.a }} </td>
+                </tr>             
+              </tbody>
+            </table>  
+            <!-- CARD END -->
+          </div>
+        </div>
+        <!-- RIGHT ROW4 END -->
+      </div>
+      <!-- RIGHT COLUMN END -->
+    </div>
+    <!-- MAIN ROW ENDS HERE -->
+  </div>
+    
+  <!-- Container Ends Here -->
+</div>
+<script type="text/javascript" src="js/angular.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "expense-splitter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "gh-pages -d dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://keshabdas.github.io/expense-splitter",
+  "dependencies": {
+    "gh-pages": "^2.2.0"
+  }
+}
